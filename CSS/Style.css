@@ -16,6 +16,7 @@ body {
 }
 
 #time {
+    padding: 25px 0px;
     font-size: 8rem;
 }
 
@@ -32,6 +33,10 @@ h2 {
     #time {
         font-size: 6rem;
     }
+}
+
+#welcome {
+    padding-top: 60px;
 }
 
 #login {
@@ -54,7 +59,7 @@ nav {
     width: 100%;
     height: 50px;
     background-color: rgb(192, 190, 190);
-    opacity: 0.6;
+    /* opacity: 0.6; */
 }
 
 nav p {

@@ -12,7 +12,7 @@ function showTime() {
         sec = today.getSeconds();
 
     // Output Time
-    time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
+    time.innerHTML = `${addZero(hour)}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
 
     setTimeout(showTime, 1000);
 }
@@ -34,9 +34,13 @@ function setBGandGreet() {
     } else if (hour < 18) {
         document.body.style.backgroundImage = "url('https://i.ibb.co/3mThcXc/afternoon.jpg')";
         greeting.textContent = 'Good Afternoon, ';
-    } else {
+    } else if (hour < 22) {
         document.body.style.backgroundImage = "url('https://i.ibb.co/924T2Wv/night.jpg')";
         greeting.textContent = 'Good Evening, ';
+        document.body.style.color = 'white';
+    } else if (hour > 22 && hour < 5) {
+        document.body.style.backgroundImage = "url('https://i.ibb.co/924T2Wv/night.jpg')";
+        greeting.textContent = 'Good Night, ';
         document.body.style.color = 'white';
     }
 }

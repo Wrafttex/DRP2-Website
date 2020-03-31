@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/Style.css" />
-    <script src="../JS/ImageLoad.js "></script>
-    <script src="../JS/pathfile.js "></script>
     <title>PlaceHolder</title>
 </head>
 
@@ -26,7 +24,14 @@
     </nav>
 
     <h1 id="welcome">Here are some images hopefully</h1>
+
+    <!-- Loading the js scripts -->
+    <script src="../JS/ImageLoad.js "></script>
+    <script src="../JS/pathfile.js "></script>
+    <script src="../JS/NavbarUpdate.js"></script>
+
     <script type="text/javascript" id="AlbumName">
+        // This needs to variable needs to change based on album
         setUpAlbum(albums[0]);
     </script>
 
@@ -36,6 +41,7 @@
     </script>
 
     <script type="text/javascript" id="LoadImages">
+        // This needs to variable needs to change based on album
         loadImage(TestAlbumImages);
     </script>
 </body>

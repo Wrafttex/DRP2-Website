@@ -17,23 +17,3 @@ function setUpAlbum(albumName) {
     document.body.style.display = "block";
     document.title = albumName;
 }
-
-function updateDropdown(albums) {
-    for (let index = 0; index < albums.length; index++) {
-        let album = document.getElementById("dropdown");
-        let list = document.createElement("li");
-        list.id = "list" + index;
-        album.appendChild(list);
-    }
-}
-
-function addAnchor(albums) {
-    for (let index = 0; index < albums.length; index++) {
-        let list = document.getElementById("list" + index);
-        let anchor = document.createElement("a");
-        let pathName = albums[index].replace(/\s/g, '');
-        anchor.setAttribute("href", pathName + ".HTML");
-        anchor.textContent = albums[index];
-        list.appendChild(anchor);
-    }
-}

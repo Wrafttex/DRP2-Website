@@ -1,8 +1,7 @@
 //DOM Elements
 const time = document.getElementById('time'),
     greeting = document.getElementById('greeting'),
-    name = document.getElementById('name'),
-    focus = document.getElementById('focus');
+    name = document.getElementById('name');
 
 // Show Time
 function showTime() {
@@ -38,7 +37,7 @@ function setBGandGreet() {
         document.body.style.backgroundImage = "url('https://i.ibb.co/924T2Wv/night.jpg')";
         greeting.textContent = 'Good Evening, ';
         document.body.style.color = 'white';
-    } else if (hour > 22 && hour < 5) {
+    } else if (hour => 22 && hour < 5) {
         document.body.style.backgroundImage = "url('https://i.ibb.co/924T2Wv/night.jpg')";
         greeting.textContent = 'Good Night, ';
         document.body.style.color = 'white';
@@ -66,35 +65,10 @@ function setName(e) {
     }
 }
 
-// Get Focus
-function getFocus() {
-    if (localStorage.getItem('focus') === null) {
-        focus.textContent = '[Enter Focus]';
-    } else {
-        focus.textContent = localStorage.getItem('focus');
-    }
-}
-
-// Set Focus
-function setFocus(e) {
-    if (e.type === 'keypress') {
-        if (e.which == 13 || e.keyCode == 13) {
-            localStorage.setItem('focus', e.target.innerText);
-            focus.blur();
-        }
-    } else {
-        localStorage.setItem('focus', e.target.innerText);
-    }
-}
-
 name.addEventListener('keypress', setName);
 name.addEventListener('blur', setName);
-
-// focus.addEventListener('keypress', setFocus);
-// focus.addEventListener('blur', setFocus);
 
 // Run
 showTime();
 setBGandGreet();
 getName();
-// getFocus();

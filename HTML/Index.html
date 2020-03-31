@@ -16,13 +16,9 @@
         <ul>
             <li><a href="Index.html">Home</a></li>
             <li><a href="#">Albums</a>
-                <ul>
-                    <li><a href="TestAlbum.html">Test Album</a>
-                        <li><a href="#">Sydpolen Tur</a>
-                            <li><a href="#">Brasilien Tur</a>
-                </ul>
-                </li>
-                <li><a href="#">Upload</a></li>
+                <ul id="dropdown"></ul>
+            </li>
+            <li><a href="#">Upload</a></li>
         </ul>
         <a href="#" id="login">Login</a>
     </nav>
@@ -34,13 +30,20 @@
         <!-- Change to username or visitor depends on what the login is -->
     </h1>
 
-    <!-- <h2>What Is Your Focus Today?</h2>
-    <h2 id="focus" contenteditable="true"></h2> -->
 
     <h2>Look Around, There Is Many Diffrent Albums To Look At</h2>
     <h2>Some Albums Are Protected, And You Need To Login To See Them</h2>
 
+    <!-- Loading the js scripts -->
     <script src="../JS/Main.js"></script>
+    <script src="../JS/pathfile.js "></script>
+    <script src="../JS/NavbarUpdate.js"></script>
+
+    <script type="text/javascript" id="DropdownSetUp">
+        updateDropdown(albums);
+        addAnchor(albums);
+    </script>
+
 </body>
 
 </html>

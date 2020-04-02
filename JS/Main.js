@@ -22,7 +22,6 @@ function addZero(n) {
 }
 
 // Set Background and greeting
-
 function setBGandGreet() {
     let today = new Date(),
         hour = today.getHours();

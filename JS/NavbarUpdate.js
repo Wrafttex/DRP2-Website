@@ -1,3 +1,4 @@
+// Adding items to the list
 function updateDropdown(albums) {
     for (let index = 0; index < albums.length; index++) {
         let album = document.getElementById("dropdown");
@@ -7,6 +8,7 @@ function updateDropdown(albums) {
     }
 }
 
+// Adding anchors to the created list items
 function addAnchor(albums) {
     for (let index = 0; index < albums.length; index++) {
         let list = document.getElementById("list" + index);

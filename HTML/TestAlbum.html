@@ -25,33 +25,39 @@
 
     <h1 id="welcome">Work in progress</h1>
 
+    <div id="albumImages"></div>
+
     <!-- Loading the js scripts -->
     <script src="../JS/ImageLoad.js "></script>
     <script src="../JS/pathfile.js "></script>
     <script src="../JS/NavbarUpdate.js"></script>
 
-    <script type="text/javascript" id="AlbumName">
-        // This variable needs to change based on album
-        setUpAlbum(albums[0]);
-    </script>
-
+    <!-- Album SetUp -->
     <script type="text/javascript" id="DropdownSetUp">
         updateDropdown(albums);
         addAnchor(albums);
     </script>
 
-    <script type="text/javascript" id="LoadImages">
+
+    <!-- Create and add images to albums -->
+    <script type="text/javascript" id="AlbumName">
         // This variable needs to change based on album
-        loadImage(TestAlbumImages);
+        setUpAlbum(albums[0]);
     </script>
 
-    <!-- The Modal -->
-<div id="myModal" class="modal">
-    <span onclick="closePopup()" class="close">&times;</span>
-    <img class="modal-content" id="img01">
-    <div id="caption"></div>
-  </div>
-    
+    <script type="text/javascript" id="createImage">
+        // This variable needs to change based on album
+        createDiv(TestAlbumImages);
+        createImage(TestAlbumImages);
+    </script>
+
+    <!-- PopUp for images (Modal) -->
+    <div id="myModal" class="modal">
+        <span onclick="closePopup()" class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+
 </body>
 
 </html>

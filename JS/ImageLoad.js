@@ -1,59 +1,92 @@
 // Creating image elements
-function loadImage(albumName) {
+function createDiv(albumName) {
+    let amount = 0;
+    let rowID = "row" + amount;
+
     for (let index = 0; index < albumName.length; index++) {
-        let image = new Image();
-        image.id = "image";
-        image.classList.add("LoadedImage");
-        image.src = albumName[index];
-        image.alt = 'Failed to load ' + albumName[index];
-        image.addEventListener("click", function() {
-                imagePopup(image);
-        }); 
-        image.height = "200";
-        image.width = "300";
-        image.style.marginLeft = "20px";
-        image.style.marginTop = "20px";
-        document.getElementById('body').appendChild(image);
+        let imageDiv = document.createElement("div");
+
+        if (index % 4 == 0 || index == 0) {
+            rowID = "row" + amount;
+            newRow(rowID);
+            amount++;
+        }
+
+        imageDiv.id = "imageDiv" + index;
+        imageDiv.style.height = "400px";
+        imageDiv.style.width = "25%";
+        imageDiv.style.overflow = "hidden";
+        // imageDiv.style.padding = "20px";
+        imageDiv.classList.add("LoadedImage");
+        appendDiv(imageDiv, rowID);
     }
 }
 
-function setUpAlbum(albumName) {
-    document.body.style.backgroundColor = "grey";
-    document.body.style.display = "block";
-    document.title = albumName;
+// Creating image elements
+function createImage(albumName) {
+    for (let index = 0; index < albumName.length; index++) {
+        let image = new Image();
+        image.id = "image";
+        //image.classList.add("LoadedImage");
+        image.src = albumName[index];
+        image.alt = "Failed to load " + albumName[index];
+        console.log("Image created");
+        image.addEventListener("click", function() {
+            imagePopup(image);
+        });
+        console.log("Sending image");
+        appendImage(image, index);
+    }
+
 }
 
+// Create rows for images
+function newRow(rowID) {
+    let row = document.createElement("div");
+    row.id = rowID;
+    row.style.display = "flex";
+    row.classList.add("rows");
+    row.style.paddingLeft = "10px";
+    row.style.paddingRight = "10px";
+    row.style.paddingBottom = "10px";
+    appendDiv(row, "albumImages");
+}
+
+// Append div
+function appendDiv(div, rowID) {
+    console.log(rowID);
+    let destinationDiv = document.getElementById(rowID);
+    destinationDiv.appendChild(div);
+}
+
+//Append Image
+function appendImage(image, index) {
+    let destinationImg = document.getElementById("imageDiv" + index);
+    destinationImg.appendChild(image);
+    console.log("Image appened");
+}
+
+// Changeing background color, title and the way images are displayed
+function setUpAlbum(albumName) {
+    document.body.style.backgroundColor = "rgb(100, 100, 100)";
+    document.body.style.display = "block";
+    document.title = albumName;
+    console.log("Album setup")
+}
+
+// Enable the popup windown and adding the images + info
 function imagePopup(image) {
-    // let img = document.getElementById("image");
     let modal = document.getElementById("myModal");
     let modalImg = document.getElementById("img01");
     let captionText = document.getElementById("caption");
+    let name = image.src.replace(/^.*[\\\/]/, '');
     modal.style.display = "block";
     modalImg.src = image.src;
-    captionText.innerHTML = image.alt;
+    captionText.innerHTML = name.split('.')[0];
 }
 
+// Closing the popup
 function closePopup() {
     let modal = document.getElementById("myModal");
-    // let span = document.getElementsByClassName("close")[0];
     modal.style.display = "none";
 }
-
-// Get the modal
-// let modal = document.getElementById("myModal");
-  
-// Get the image and insert it inside the modal - use its "alt" text as a caption
-// let img = document.getElementById("image");
-// let modalImg = document.getElementById("img01");
-// let captionText = document.getElementById("caption");
-// img.onclick = function(){
-//   modal.style.display = "block";
-//   modalImg.src = this.src;
-//   captionText.innerHTML = this.alt;
-// }
-
-// Get the <span> element that closes the modal
-// let span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-// span.onclick = function()

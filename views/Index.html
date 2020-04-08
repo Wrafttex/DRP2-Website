@@ -6,7 +6,7 @@
     <meta neame="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/Style.css" />
+    <link rel="stylesheet" href="./stylesheets/Style.css" />
     <title>Welcome</title>
 </head>
 
@@ -14,7 +14,7 @@
     <nav>
         <p>DRP2</p>
         <ul>
-            <li><a href="Index.html">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">Albums</a>
                 <ul id="dropdown"></ul>
             </li>
@@ -35,13 +35,13 @@
     <h2>Some Albums Are Protected, And You Need To Login To See Them</h2>
 
     <!-- Loading the js scripts -->
-    <script src="../JS/Main.js"></script>
-    <script src="../JS/pathfile.js "></script>
-    <script src="../JS/NavbarUpdate.js"></script>
+    <script src="/javascripts/Main.js"></script>
+    <script src="/javascripts/pathfile.js "></script>
+    <script src="/javascripts/NavbarUpdate.js"></script>
 
     <script type="text/javascript" id="DropdownSetUp">
-        updateDropdown(albums);
-        addAnchor(albums);
+        updateDropdown(Album);
+        addAnchor(Album);
     </script>
 
 </body>

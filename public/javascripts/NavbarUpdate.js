@@ -14,7 +14,7 @@ function addAnchor(albums) {
         let list = document.getElementById("list" + index);
         let anchor = document.createElement("a");
         let pathName = albums[index].replace(/\s/g, '');
-        anchor.setAttribute("href", pathName + ".HTML");
+        anchor.setAttribute("href", pathName);
         anchor.textContent = albums[index];
         list.appendChild(anchor);
     }

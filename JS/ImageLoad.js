@@ -14,9 +14,10 @@ function createDiv(albumName) {
 
         imageDiv.id = "imageDiv" + index;
         imageDiv.style.height = "400px";
-        imageDiv.style.width = "25%";
+        imageDiv.style.width = "425px";
+        imageDiv.style.display = "block";
         imageDiv.style.overflow = "hidden";
-        // imageDiv.style.padding = "20px";
+        imageDiv.style.marginLeft = "1%";
         imageDiv.classList.add("LoadedImage");
         appendDiv(imageDiv, rowID);
     }
@@ -26,10 +27,11 @@ function createDiv(albumName) {
 function createImage(albumName) {
     for (let index = 0; index < albumName.length; index++) {
         let image = new Image();
-        image.id = "image";
+        image.id = index;
         //image.classList.add("LoadedImage");
         image.src = albumName[index];
         image.alt = "Failed to load " + albumName[index];
+        // imgae.style.objectFit = "cover";
         console.log("Image created");
         image.addEventListener("click", function() {
             imagePopup(image);
@@ -37,7 +39,6 @@ function createImage(albumName) {
         console.log("Sending image");
         appendImage(image, index);
     }
-
 }
 
 // Create rows for images

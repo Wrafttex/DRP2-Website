@@ -19,11 +19,16 @@
         padding: 25px 0px;
         font-size: 8rem;
     }
-    /* #image {
-    width: auto;
-    height: auto;
-    object-fit: scale-down;
-} */
+    
+    #editButton {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1rem;
+        width: 180px;
+        background-color: rgb(73, 73, 73);
+        color: whitesmoke;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
     
     @media(max-width: 700px) {
         #time {
@@ -48,9 +53,13 @@
     #login:hover {
         background-color: teal;
     }
-    /* .rows {
-    padding: 20px;
-} */
+    
+    #albumImages {
+        margin: auto;
+        width: 90%;
+        /* border: 3px solid #73AD21; */
+        padding: 10px;
+    }
     
     h1 {
         margin-bottom: 3rem;
@@ -122,7 +131,7 @@
     }
     /* Pop up function */
     
-    <style>body {
+    body {
         font-family: Arial, Helvetica, sans-serif;
     }
     
@@ -232,5 +241,3 @@
             width: 100%;
         }
     }
-    
-    </style>

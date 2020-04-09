@@ -23,10 +23,11 @@
         <a href="#" id="login">Login</a>
     </nav>
 
-    <h1 id="welcome">Work in progress</h1>
+    <h1 id="welcome">PlaceHolder</h1>
 
 
     <div id="albumImages"></div>
+    <span id="editButton">Edit Album</span>
 
     <!-- Loading the js scripts -->
     <script src="../JS/ImageLoad.js "></script>
@@ -54,9 +55,14 @@
 
     <!-- PopUp for images (Modal) -->
     <div id="myModal" class="modal">
-        <span onclick="closePopup()" class="close">&times;</span>
+        <span onclick="closePopup('myModal')" class="close">&times;</span>
         <img class="modal-content" id="img01">
         <div id="caption"></div>
+    </div>
+
+    <div id="editWindow">
+        <span onclick="closePopup('editWindow')" class="close">&times;</span>
+        <div id="editWindowContent"></div>
     </div>
 
 </body>

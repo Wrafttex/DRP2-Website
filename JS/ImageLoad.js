@@ -72,6 +72,7 @@ function setUpAlbum(albumName) {
     document.body.style.backgroundColor = "rgb(100, 100, 100)";
     document.body.style.display = "block";
     document.title = albumName;
+    document.getElementById("welcome").innerHTML = albumName;
     console.log("Album setup")
 }
 
@@ -86,8 +87,16 @@ function imagePopup(image) {
     captionText.innerHTML = name.split('.')[0];
 }
 
+function editWindow() {
+    let window = document.getElementById("editWondow");
+    let windowContent = document.getElementById("editWindownContent");
+    let row = document.getElementById("row0");
+    window.style.display = "flex";
+    windowContent.innerHTML = "row";
+}
+
 // Closing the popup
-function closePopup() {
-    let modal = document.getElementById("myModal");
-    modal.style.display = "none";
+function closePopup(id) {
+    let popup = document.getElementById(id);
+    popup.style.display = "none";
 }

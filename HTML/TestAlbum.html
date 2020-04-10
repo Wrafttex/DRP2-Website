@@ -28,6 +28,13 @@
 
     <div id="albumImages"></div>
 
+    <!-- PopUp for images (Modal) -->
+    <div id="myModal" class="modal">
+        <span onclick="closePopup()" class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+
     <!-- Loading the js scripts -->
     <script src="../JS/ImageLoad.js "></script>
     <script src="../JS/pathfile.js "></script>
@@ -51,18 +58,6 @@
         createDiv(TestAlbumImages);
         createImage(TestAlbumImages);
     </script>
-
-    <!-- PopUp for images (Modal) -->
-    <div id="myModal" class="modal">
-        <span onclick="closePopup('myModal')" class="close">&times;</span>
-        <img class="modal-content" id="img01">
-        <div id="caption"></div>
-    </div>
-
-    <div id="editWindow">
-        <span onclick="closePopup('editWindow')" class="close">&times;</span>
-        <div id="editWindowContent"></div>
-    </div>
 
 </body>
 

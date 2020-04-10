@@ -73,6 +73,7 @@ function setUpAlbum(albumName) {
     document.body.style.display = "block";
     document.title = albumName;
     document.getElementById("welcome").innerHTML = albumName;
+
     console.log("Album setup")
 }
 
@@ -96,7 +97,7 @@ function editWindow() {
 }
 
 // Closing the popup
-function closePopup(id) {
-    let popup = document.getElementById(id);
+function closePopup() {
+    let popup = document.getElementById("myModal");
     popup.style.display = "none";
 }

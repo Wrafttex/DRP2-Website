@@ -1,17 +1,6 @@
 var url = require('url');
-var fs = require('fs');
-
-function renderHTML(path, response) {
-	fs.readFile(path, null, function (error, data) {
-		if (error) {
-			response.writeHead(404);
-			response.write('File not found!');
-		} else {
-			response.write(data);
-		}
-		response.end();
-	});
-}
+const fs = require('fs');
+const api = require('./api');
 
 module.exports = {
 	handleRequest: function (request, response) {
@@ -28,6 +17,8 @@ module.exports = {
 			response.writeHead(200, { 'Content-Type': 'image/jpg' });
 			renderHTML('./public' + path, response);
 
+		} else if (path.includes('/api')) {
+			api.handleApiRequest(request, response);
 		} else if (path === '/') {
 			response.writeHead(200, { 'Content-Type': 'text/html' });
 			renderHTML('./views/Index.html', response);
@@ -38,6 +29,18 @@ module.exports = {
 		}
 	}
 };
+
+function renderHTML(path, response) {
+	fs.readFile(path, null, function (error, data) {
+		if (error) {
+			response.writeHead(404);
+			response.write('File not found!');
+		} else {
+			response.write(data);
+		}
+		response.end();
+	});
+}
 
 function makeData() {
 	//TODO.

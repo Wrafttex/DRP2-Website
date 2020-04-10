@@ -63,14 +63,15 @@ function makeArr(arrName, arr) {
     fileBuff += '];\n';
 }
 
-function fileSync(file, albumIndex) {
+function fileSync(albumName, albumIndex) {
     fs.readFile('skabelon!!.html', 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }
-        let result = data.replace('setUpAlbum(albums[0]);', 'setUpAlbum(albums[' + albumIndex + ']);');
+        let result = data.replace('Album[0]', 'Album[' + albumIndex + ']');
+        result = result.replace('TestAlbum', 'albumIndex');
 
-        fs.writeFile(file + '.html', result, 'utf8', function (err) {
+        fs.writeFile(albumName + '.html', result, 'utf8', function (err) {
             if (err) return console.log(err);
         });
         console.log(result);

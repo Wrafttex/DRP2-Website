@@ -20,16 +20,6 @@
         font-size: 8rem;
     }
     
-    #editButton {
-        font-family: 'Quicksand', sans-serif;
-        font-size: 1rem;
-        width: 180px;
-        background-color: rgb(73, 73, 73);
-        color: whitesmoke;
-        border: 1px solid black;
-        border-radius: 10px;
-    }
-    
     @media(max-width: 700px) {
         #time {
             font-size: 6rem;
@@ -42,10 +32,6 @@
     
     #login {
         color: rgb(54, 54, 53);
-    }
-    
-    #navElements {
-        font-size: 1rem;
     }
     
     h1 {

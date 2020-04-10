@@ -1,3 +1,5 @@
+const mysql = require('mysql');
+
 module.exports = {
     handleApiRequest: function (request, response) {
         const { headers, method, url } = request;
@@ -11,7 +13,6 @@ module.exports = {
             body = jobHandler(JSON.parse(body));
             sendResponse({ headers, method, url, body }, response);
         });
-        //body = jobHandler(JSON.parse(body));
     }
 };
 
@@ -20,8 +21,13 @@ function jobHandler(data){
         return ({
             status: "successful test"
         });
+    } else if (data.job === "mysql_uypdate"){
+        updateMtsqlDb(databse, data, index);
     } else {
         console.log("somthing bad happend");
+        return ({
+            status: "error"
+        });
     }
     
 }

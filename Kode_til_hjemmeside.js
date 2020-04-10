@@ -5,8 +5,9 @@ let pathfileDirectory = "./public/javascripts/pathfile_test.js";
 let imageDirectory = "./public/images";
 let fileBuff = '';
 
-pathFinder();
-makeFile(pathfileDirectory, fileBuff);
+
+//pathFinder();
+//makeFile(pathfileDirectory, fileBuff);
 //fileSync("TestAlbumImages", "text/javascript");
 
 function pathFinder() {
@@ -14,7 +15,7 @@ function pathFinder() {
     let albums = fs.readdirSync(imageDirectory);
 
     albums = extensionCheck(albums, false, '.');
-    
+
     makeArr('Album', albums);
 
     for (let i = 0; i < albums.length; i++) {

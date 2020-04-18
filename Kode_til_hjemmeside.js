@@ -1,9 +1,32 @@
 const fs = require('fs');
 const path = require('path');
+let mysql = require('mysql');
+
+// maby this helps... "sudo /etc/init.d/mysql start"
+
+let con = mysql.createConnection({
+    user: "webalbum",
+    password: "password",
+    connectionLimit: 10
+});
 
 let pathfileDirectory = "./public/javascripts/pathfile_test.js";
 let imageDirectory = "./public/images";
 let fileBuff = '';
+
+let thething = {job: "mysqlInsert", albumName: "testAlbum", imageArray: ["ing1.jpg", "image2.jpg"]};
+
+console.log(thething.imageArray);
+console.log(JSON.stringify(thething.imageArray));
+
+/*con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    con.query("CREATE DATABASE webAlbum", function (err, result) {
+        if (err) throw err;
+        console.log("Database created");
+    });
+});*/
 
 
 //pathFinder();

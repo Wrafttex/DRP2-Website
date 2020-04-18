@@ -10,6 +10,10 @@
     <title>PlaceHolder</title>
 </head>
 
+
+<!-- <div id="draggable" class="dragme">"Hello World!"</div>
+<img src="https://lh4.googleusercontent.com/-8tqTFxi2ebU/Ufo4j_thf7I/AAAAAAAADFM/_ZBQctm9e8E/w270-h203-no/flower.jpg" alt="drag-and-drop image script" title="drag-and-drop image script" class="dragme"> -->
+
 <body id="body">
     <nav>
         <p>DRP2</p>
@@ -18,26 +22,32 @@
             <li><a href="#">Albums</a>
                 <ul id="dropdown"></ul>
             </li>
-            <li><a href="#">Upload</a></li>
+            <li> <label class="fileContainer"> Click here to upload file(s)
+                    <input type="file" id="inputFileToLoad" name="files" accept=".jpeg" multiple="Multiple Select Files"
+                        onchange="uploadedImagesToArray();" />
+                </label></li>
+
         </ul>
     </nav>
 
     <h1 id="welcome">PlaceHolder</h1>
 
+    <div id="uploadedImages"></div>
+
+
 
     <div id="albumImages"></div>
-
-    <!-- PopUp for images (Modal) -->
-    <div id="myModal" class="modal">
-        <span onclick="closePopup()" class="close">&times;</span>
-        <img class="modal-content" id="img01">
-        <div id="caption"></div>
-    </div>
 
     <!-- Loading the js scripts -->
     <script src="/javascripts/ImageLoad.js "></script>
     <script src="/javascripts/pathfile.js "></script>
     <script src="/javascripts/NavbarUpdate.js"></script>
+    <script src="/javascripts/dragAndDrop.js"></script>
+    <script src="/"></script>
+    <script src="/javascripts/Imageupload64.js"></script>
+    <script src="/javascripts/ImageLoad.js"></script>
+
+
 
     <!-- Album SetUp -->
     <script type="text/javascript" id="DropdownSetUp">
@@ -45,18 +55,22 @@
         addAnchor(albums);
     </script>
 
-
     <!-- Create and add images to albums -->
     <script type="text/javascript" id="AlbumName">
-        // This variable needs to change based on album
         setUpAlbum(albums[0]);
     </script>
 
-    <script type="text/javascript" id="createImage">
-        // This variable needs to change based on album
+    <script type="text/javascript" id="createImage" class="dragme">
         createDiv(TestAlbumImages, "albumImages");
         createImage(TestAlbumImages);
     </script>
+
+    <!-- PopUp for images (Modal) -->
+    <!-- <div id="myModal" class="modal">
+        <span onclick="closePopup()" class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div> -->
 
 </body>
 

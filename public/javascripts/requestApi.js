@@ -1,7 +1,5 @@
 //test data packet
-/*apiCall({ job: "test", dataBase: "login", user: "per", password: "1234" }).then(result => {
-        console.log(result);
-    });*/
+//apiCall({job: "test"}).then(result => { console.log(result); });
 
 
 /*async function apiTest() {
@@ -13,9 +11,7 @@
 }
 apiTest();*/
 
-apiCall({job: "mysqlLogin", userName: "Admin", password: "Admin"}).then(result => {
-    console.log(result);
-});
+apiCall({job: "mysqlLogin", userName: "Admin", password: "Admin"}).then(result => { console.log(result); });
 
 //working image uploade data
 /*apiCall({

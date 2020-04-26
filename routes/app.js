@@ -1,10 +1,12 @@
-var url = require('url');
+const url = require('url');
 const fs = require('fs');
+const jwt = require("jsonwebtoken");
 const api = require('./api');
+const secretKey = "aHR0cHM6Ly95b3V0dS5iZS9kUXc0dzlXZ1hjUQ==";
 
 module.exports = {
 	handleRequest: function (request, response) {
-		var path = url.parse(request.url).pathname;
+		let path = url.parse(request.url).pathname;
 		if (path.includes('/stylesheets')) {
 			response.writeHead(200, { 'Content-Type': 'text/css' });
 			renderHTML('./public' + path, response);
@@ -19,9 +21,22 @@ module.exports = {
 
 		} else if (path.includes('/api')) {
 			api.handleApiRequest(request, response);
+
 		} else if (path === '/') {
 			response.writeHead(200, { 'Content-Type': 'text/html' });
 			renderHTML('./views/Index.html', response);
+
+		} else if (path === '/Editserver') {
+			jwt.verify(getcookies(request.headers.cookie), secretKey, (err, decoded) => {
+				if (err) {
+					response.writeHead(404);
+					response.write('404: Site not found!');
+					response.end();
+				} else {
+					response.writeHead(200, { 'Content-Type': 'text/html' });
+					renderHTML('./views' + path + '.html', response);
+				}
+			});
 
 		} else {
 			response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -31,15 +46,29 @@ module.exports = {
 };
 
 function renderHTML(path, response) {
-	fs.readFile(path, null, function (error, data) {
-		if (error) {
+	fs.readFile(path, null, function (err, data) {
+		if (err) {
 			response.writeHead(404);
-			response.write('File not found!');
+			response.write('404: Site not found!');
 		} else {
 			response.write(data);
 		}
 		response.end();
 	});
+}
+
+function getcookies(cookies) {
+	let c;
+	if (typeof cookies != "undefined") {
+		cookies = cookies.split(';');
+		for (let i = 0; i < cookies.length; i++) {
+			c = cookies[i].split('=');
+			if (c[0] == "token") {
+				return c[1];
+			}
+		}
+	}
+	return "";
 }
 
 function makeData() {

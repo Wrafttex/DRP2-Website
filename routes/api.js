@@ -1,6 +1,7 @@
 const fs = require('fs');
 const mysql = require('mysql');
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 
 const con = mysql.createPool({
     user: "webalbum",
@@ -29,8 +30,8 @@ module.exports = {
 };
 //jwt.verify(token, secretKey)
 async function jobHandler(body, data, response) {
-    if (body.job === "test") {  
-        getcookies(data.headers.cookie);    
+    if (body.job === "test") {
+        getcookies(data.headers.cookie);
         data.body = successMassage;
         sendResponse(data, response);
     } else if (body.job === "mysqlQuery") {
@@ -58,17 +59,17 @@ async function jobHandler(body, data, response) {
 }
 
 function getcookies(cookies) {
-	let c;
-	if (typeof cookies != "undefined") {
-		cookies = cookies.split(';');
-		for (let i = 0; i < cookies.length; i++) {
-			c = cookies[i].split('=');
-			if (c[0] == "token") {
-				return c[1];
-			}
-		}
-	}
-	return "";
+    let c;
+    if (typeof cookies != "undefined") {
+        cookies = cookies.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            c = cookies[i].split('=');
+            if (c[0] == "token") {
+                return c[1];
+            }
+        }
+    }
+    return "";
 }
 
 function saveImage(body, data, response) {
@@ -81,51 +82,6 @@ function saveImage(body, data, response) {
         sendResponse(data, response);
     });
 }
-
-//Create tables in database (debug only)
-function createTwoTables(body, data, response) {
-    con.query("CREATE TABLE Images (AlbumName varchar(20), Array varchar(255))", (err, result) => {
-        if (err) {
-            data.body = errorMassage;
-        } else {
-            con.query("CREATE TABLE Login (Username varchar(20), Password varchar(20))", (err, result) => {
-                if (err) {
-                    data.body = errorMassage;
-                } else {
-                    con.query("INSERT into Login values ('Admin','Admin')", (err, result) => {
-                        if (err) {
-                            data.body = errorMassage;
-                        } else {
-                            data.body = successMassage;
-                        }
-                        sendResponse(data, response);
-                    });
-                }
-            })
-        }
-    })
-}
-
-//Delete tables in database (debug only)
-function deleteTables(body, data, response) {
-    con.query("DROP TABLE Images", (err, result) => {
-        if (err) {
-            data.body = errorMassage;
-        } else {
-            con.query("DROP TABLE Login", (err, result) => {
-                if (err) {
-                    data.body = errorMassage;
-                } else {
-                    data.body = successMassage;
-                }
-                sendResponse(data, response);
-            })
-        }
-    })
-
-
-}
-
 
 //Insert data into the table
 function insertData(body, data, response) {
@@ -173,15 +129,23 @@ function searchForElement(body, data, response) {
         if (err) {
             console.log(err);
             data.body = errorMassage;
-        } else if (result[0].Password === body.password) {
-            data.body = {
-                status: "success"
-            };
-            response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.userName }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
+            sendResponse(data, response);
         } else {
-            data.body = errorMassage;
+            bcrypt.compare(body.password, result[0].Password, (err, result) => {
+                if (err) {
+                    console.log('Error', err);
+                } else if (result) {
+                    data.body = {
+                        status: "success"
+                    };
+                    response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.userName }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
+                } else {
+                    data.body = errorMassage;
+                }
+                sendResponse(data, response);
+            })
+
         }
-        sendResponse(data, response);
     })
 }
 

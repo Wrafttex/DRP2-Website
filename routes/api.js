@@ -30,13 +30,10 @@ module.exports = {
 };
 //jwt.verify(token, secretKey)
 async function jobHandler(body, data, response) {
-    if (body.job === "test") {
-        data.body = successMassage;
-        sendResponse(data, response);
-    } else if (body.job === "mysqlQuery") {
-        displayQuery(body, data, response);
-    } else if (body.job === "mysqlLogin") {
-        searchForElement(body, data, response);
+    if (body.job === "getData") {
+        getData(body, data, response);
+    } else if (body.job === "Login") {
+        login(body, data, response);
     } else if (typeof data.headers.cookie != "undefined") {
         jwt.verify(getCookie(data.headers.cookie, "token"), secretKey, (err, decoded) => {
             if (err) {
@@ -44,14 +41,13 @@ async function jobHandler(body, data, response) {
                 sendResponse(data, response);
             } else if (body.job === "imageUploade") {
                 saveImage(body, data, response);
-            } else if (body.job === "mysqlInsert") {
+            } else if (body.job === "insertData") {
                 insertData(body, data, response);
-            } else if (body.job === "mysqlUpdate") {
+            } else if (body.job === "updateData") {
                 updateData(body, data, response);
             }
         });
     } else {
-        console.log("somthing bad happend");
         data.body = errorMassage;
         sendResponse(data, response);
     }
@@ -101,7 +97,7 @@ function updateData(body, data, response) {
 }
 
 //Print data from table
-function displayQuery(body, data, response) {
+function getData(body, data, response) {
     con.query("select Array from Images where AlbumName = ?", [body.albumName], (err, result) => {
         if (err) {
             data.body = errorMassage;
@@ -117,7 +113,7 @@ function displayQuery(body, data, response) {
 
 
 //Til alle de mængder af data hvor id = ?
-function searchForElement(body, data, response) {
+function login(body, data, response) {
     con.query("select Password from Login where Username = ?", [body.userName], (err, result) => {
         if (err) {
             console.log(err);
@@ -126,11 +122,10 @@ function searchForElement(body, data, response) {
         } else {
             bcrypt.compare(body.password, result[0].Password, (err, result) => {
                 if (err) {
+                    data.body = errorMassage;
                     console.log('Error', err);
                 } else if (result) {
-                    data.body = {
-                        status: "success"
-                    };
+                    data.body = successMassage;
                     response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.userName }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
                 } else {
                     data.body = errorMassage;

@@ -31,7 +31,6 @@ module.exports = {
 //jwt.verify(token, secretKey)
 async function jobHandler(body, data, response) {
     if (body.job === "test") {
-        getcookies(data.headers.cookie);
         data.body = successMassage;
         sendResponse(data, response);
     } else if (body.job === "mysqlQuery") {
@@ -39,7 +38,7 @@ async function jobHandler(body, data, response) {
     } else if (body.job === "mysqlLogin") {
         searchForElement(body, data, response);
     } else if (typeof data.headers.cookie != "undefined") {
-        jwt.verify(getcookies(data.headers.cookie), secretKey, (err, decoded) => {
+        jwt.verify(getCookie(data.headers.cookie, "token"), secretKey, (err, decoded) => {
             if (err) {
                 data.body = errorMassage;
                 sendResponse(data, response);
@@ -58,18 +57,12 @@ async function jobHandler(body, data, response) {
     }
 }
 
-function getcookies(cookies) {
-    let c;
-    if (typeof cookies != "undefined") {
-        cookies = cookies.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            c = cookies[i].split('=');
-            if (c[0] == "token") {
-                return c[1];
-            }
-        }
+function getCookie(cookieStr, cookieName) {
+    try {
+        return cookieStr.split(' ' + cookieName + '=')[1].split(';')[0];
+    } catch (error) {
+        return "";
     }
-    return "";
 }
 
 function saveImage(body, data, response) {

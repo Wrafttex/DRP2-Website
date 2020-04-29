@@ -27,7 +27,7 @@ module.exports = {
 			renderHTML('./views/Index.html', response);
 
 		} else if (path === '/Editserver') {
-			jwt.verify(getcookies(request.headers.cookie), secretKey, (err, decoded) => {
+			jwt.verify(getCookie(request.headers.cookie, "token"), secretKey, (err, decoded) => {
 				if (err) {
 					response.writeHead(404);
 					response.write('404: Site not found!');
@@ -57,18 +57,12 @@ function renderHTML(path, response) {
 	});
 }
 
-function getcookies(cookies) {
-	let c;
-	if (typeof cookies != "undefined") {
-		cookies = cookies.split(';');
-		for (let i = 0; i < cookies.length; i++) {
-			c = cookies[i].split('=');
-			if (c[0] == "token") {
-				return c[1];
-			}
-		}
-	}
-	return "";
+function getCookie(cookieStr, cookieName) {
+    try {
+        return cookieStr.split(' ' + cookieName + '=')[1].split(';')[0];
+    } catch (error) {
+        return "";
+    }
 }
 
 function makeData() {

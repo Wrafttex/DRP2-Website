@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta neame="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/Style.css" />
+    <title>PlaceHolder</title>
+</head>
+
+
+<!-- <div id="draggable" class="dragme">"Hello World!"</div>
+<img src="https://lh4.googleusercontent.com/-8tqTFxi2ebU/Ufo4j_thf7I/AAAAAAAADFM/_ZBQctm9e8E/w270-h203-no/flower.jpg" alt="drag-and-drop image script" title="drag-and-drop image script" class="dragme"> -->
+
+<body id="body">
+    <nav>
+        <p>DRP2</p>
+        <ul id="navElements">
+            <li><a href="Index">Home</a></li>
+            <li><a href="#">Albums</a>
+                <ul id="dropdown"></ul>
+            </li>
+            <li>
+                <a href="#" onclick="savePlacement()"> Stitch</a>
+            </li>
+            <li> <label class="fileContainer"> Click here to upload file(s)
+                    <input type="file" id="inputFileToLoad" name="files" accept=".jpg" multiple="Multiple Select Files"
+                        onchange="uploadedImagesToArray();" />
+                </label></li>
+        </ul>
+    </nav>
+
+    <h1 id="welcome">PlaceHolder</h1>
+
+    <h2 id="uploadText">Newly Uploaded Imgaes</h2>
+    <div id="uploadedImages"></div>
+
+    <h2 id="albumText">Existing Album</h2>
+
+    <div id="albumImages"></div>
+
+
+    <!-- Loading the js scripts -->
+    <script src="/javascripts/ImageLoad.js "></script>
+    <script src="/javascripts/pathfile.js "></script>
+    <script src="/javascripts/NavbarUpdate.js"></script>
+    <script src="/javascripts/dragAndDrop.js"></script>
+    <script src="/javascripts/Index.html"></script>
+    <script src="/javascripts/Imageupload64.js"></script>
+    <script src="/javascripts/ImageLoad.js"></script>
+
+
+
+    <!-- Album SetUp -->
+    <script type="text/javascript" id="DropdownSetUp">
+        updateDropdown(albums);
+        addAnchor(albums);
+    </script>
+
+    <!-- Create and add images to albums -->
+    <script type="text/javascript" id="AlbumName">
+        setUpAlbum(albums[0]);
+        getApiTable("testAlbum");
+    </script>
+
+    <script type="text/javascript" id="createImage" class="dragme">
+    </script>
+
+</body>
+
+</html>

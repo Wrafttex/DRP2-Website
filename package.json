@@ -1,0 +1,27 @@
+{
+  "name": "drp2-website",
+  "version": "1.0.0",
+  "description": "P2WebAlbumProjekt",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wrafttex/DRP2-Website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wrafttex/DRP2-Website/issues"
+  },
+  "homepage": "https://github.com/Wrafttex/DRP2-Website#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "node-pre-gyp": "^0.14.0"
+  }
+}

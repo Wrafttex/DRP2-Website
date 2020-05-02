@@ -59,7 +59,7 @@ function renderHTML(path, response) {
 
 function getCookie(cookieStr, cookieName) {
     try {
-        return cookieStr.split(' ' + cookieName + '=')[1].split(';')[0];
+        return cookieStr.split(cookieName + '=')[1].split(';')[0];
     } catch (error) {
         return "";
     }

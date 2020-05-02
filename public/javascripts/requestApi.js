@@ -11,7 +11,7 @@
 }
 apiTest();*/
 
-apiCall({job: "Login", userName: "Admin", password: "Admin"}).then(result => { console.log(result); });
+apiCall({job: "Login", username: "Admin", password: "Admin"}).then(result => { console.log(result); });
 
 //working image uploade data
 /*apiCall({
@@ -30,7 +30,7 @@ apiCall({job: "Login", userName: "Admin", password: "Admin"}).then(result => { c
 //apiCall({job: "getData", albumName: "testAlbum"});
 
 //login
-//apiCall({job: "Login", userName: "Admin", password: "Admin"});
+//apiCall({job: "Login", username: "Admin", password: "Admin"});
 
 //api call
 async function apiCall(data) {

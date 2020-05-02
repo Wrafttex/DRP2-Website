@@ -29,7 +29,7 @@ module.exports = {
     }
 };
 //jwt.verify(token, secretKey)
-async function jobHandler(body, data, response) {
+function jobHandler(body, data, response) {
     if (body.job === "getData") {
         getData(body, data, response);
     } else if (body.job === "Login") {
@@ -45,6 +45,9 @@ async function jobHandler(body, data, response) {
                 insertData(body, data, response);
             } else if (body.job === "updateData") {
                 updateData(body, data, response);
+            } else {
+                data.body = errorMassage;
+                sendResponse(data, response);
             }
         });
     } else {
@@ -55,14 +58,14 @@ async function jobHandler(body, data, response) {
 
 function getCookie(cookieStr, cookieName) {
     try {
-        return cookieStr.split(' ' + cookieName + '=')[1].split(';')[0];
+        return cookieStr.split(cookieName + '=')[1].split(';')[0];
     } catch (error) {
         return "";
     }
 }
 
 function saveImage(body, data, response) {
-    fs.writeFile('./public/images/' + data.imageName + '.jpg', data.imageData, 'base64', (err) => {
+    fs.writeFile('./public/images/' + body.imageName + '.jpg', body.imageData, 'base64', (err) => {
         if (err) {
             data.body = errorMassage;
         } else {
@@ -114,25 +117,20 @@ function getData(body, data, response) {
 
 //Til alle de mængder af data hvor id = ?
 function login(body, data, response) {
-    con.query("select Password from Login where Username = ?", [body.userName], (err, result) => {
-        if (err) {
-            console.log(err);
-            data.body = errorMassage;
-            sendResponse(data, response);
-        } else {
+    con.query("select Password from Login where Username = ?", [body.username], (err, result) => {
+        if (typeof result[0] != "undefined" && typeof result[0].Password != "undefined") {
             bcrypt.compare(body.password, result[0].Password, (err, result) => {
-                if (err) {
-                    data.body = errorMassage;
-                    console.log('Error', err);
-                } else if (result) {
+                if (result) {
                     data.body = successMassage;
-                    response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.userName }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
+                    response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.username }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
                 } else {
                     data.body = errorMassage;
                 }
                 sendResponse(data, response);
             })
-
+        } else {
+            data.body = errorMassage;
+            sendResponse(data, response);
         }
     })
 }

@@ -15,7 +15,7 @@ apiCall({job: "Login", username: "Admin", password: "Admin"}).then(result => { c
 
 //working image uploade data
 /*apiCall({
-    job: "imageUploade",
+    job: "imageUpload",
     imageName: "testImage",
     imageData: base64.substring(23)
 })*/
@@ -30,7 +30,7 @@ apiCall({job: "Login", username: "Admin", password: "Admin"}).then(result => { c
 //apiCall({job: "getData", albumName: "testAlbum"});
 
 //login
-//apiCall({job: "Login", username: "Admin", password: "Admin"});
+//apiCall({job: "login", username: "Admin", password: "Admin"});
 
 //api call
 async function apiCall(data) {

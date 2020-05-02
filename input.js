@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
+//Defining the mysql connection settings
 const con = mysql.createPool({
     user: "webalbum",
     password: "password",
@@ -8,9 +9,9 @@ const con = mysql.createPool({
     connectionLimit: 10
 });
 
-// if mysql(WSL) givs an "Error: connect ECONNREFUSED 127.0.0.1:3306" use "sudo /etc/init.d/mysql start"
+// if mysql(WSL) gives an "Error: connect ECONNREFUSED 127.0.0.1:3306" use "sudo /etc/init.d/mysql start"
 
-//Determine argument
+//Determine the input argument
 if (process.argv[2] === 'create') {
     createTables();
 } else if (process.argv[2] === 'delete') {
@@ -29,7 +30,7 @@ function createTables() {
                 if (err) {
                     console.log(err);
                 } else {
-                    bcrypt.hash("Admin", 10, (err, hash) => {
+                    bcrypt.hash("Admin", 10, (err, hash) => { //Password hashing before being inserted into database
                         if (err) {
                             console.log(err);
                         } else {

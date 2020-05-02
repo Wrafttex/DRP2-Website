@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const api = require('./api');
 const secretKey = "aHR0cHM6Ly95b3V0dS5iZS9kUXc0dzlXZ1hjUQ==";
 
+//Determines request that is being made, then routes to specified function
 module.exports = {
 	handleRequest: function (request, response) {
 		let path = url.parse(request.url).pathname;
@@ -45,6 +46,7 @@ module.exports = {
 	}
 };
 
+//Reads the file that has been requested and returns it as a response
 function renderHTML(path, response) {
 	fs.readFile(path, null, function (err, data) {
 		if (err) {
@@ -57,28 +59,11 @@ function renderHTML(path, response) {
 	});
 }
 
+//Determines the value of a cookie given the cookie string and name
 function getCookie(cookieStr, cookieName) {
     try {
         return cookieStr.split(cookieName + '=')[1].split(';')[0];
     } catch (error) {
         return "";
     }
-}
-
-function makeData() {
-	//TODO.
-	//TODO.
-	//TODO TODO TODO TODO TODOOOOOOO
-	//DO DO DO DO DOOO
-	//	.--.            .--.
-	//	( (`\\."--``--".//`) )
-	//	 '-.   __   __    .-'
-	//	  /   /__\ /__\   \
-	//	 |    \ 0/ \ 0/    |
-	//	 \     `/   \`     /
-	//	  `-.  /-"""-\  .-`
-	//		/  '.___.'  \
-	//		\     I     /
-	//		 `;--'`'--;`
-	//         '.___.'
 }

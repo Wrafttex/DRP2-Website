@@ -3,16 +3,19 @@ const mysql = require('mysql');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 
+//Defining the mysql connection settings
 const con = mysql.createPool({
     user: "webalbum",
     password: "password",
     database: "webAlbum",
     connectionLimit: 10
 });
-const errorMassage = { status: "error" };
-const successMassage = { status: "success" };
+
+const errorMessage = { status: "error" };
+const successMessage = { status: "success" };
 const secretKey = "aHR0cHM6Ly95b3V0dS5iZS9kUXc0dzlXZ1hjUQ==";
 
+//Extracts the headers, method, url and body from the request
 module.exports = {
     handleApiRequest: function (request, response) {
         const { headers, method, url } = request;
@@ -28,34 +31,36 @@ module.exports = {
         });
     }
 };
-//jwt.verify(token, secretKey)
+
+//Routes data to specified job and checks for cookie if needed
 function jobHandler(body, data, response) {
     if (body.job === "getData") {
         getData(body, data, response);
-    } else if (body.job === "Login") {
+    } else if (body.job === "login") {
         login(body, data, response);
     } else if (typeof data.headers.cookie != "undefined") {
         jwt.verify(getCookie(data.headers.cookie, "token"), secretKey, (err, decoded) => {
             if (err) {
-                data.body = errorMassage;
+                data.body = errorMessage;
                 sendResponse(data, response);
-            } else if (body.job === "imageUploade") {
+            } else if (body.job === "imageUpload") {
                 saveImage(body, data, response);
             } else if (body.job === "insertData") {
                 insertData(body, data, response);
             } else if (body.job === "updateData") {
                 updateData(body, data, response);
             } else {
-                data.body = errorMassage;
+                data.body = errorMessage;
                 sendResponse(data, response);
             }
         });
     } else {
-        data.body = errorMassage;
+        data.body = errorMessage;
         sendResponse(data, response);
     }
 }
 
+//Determines the value of a cookie given the cookie string and name
 function getCookie(cookieStr, cookieName) {
     try {
         return cookieStr.split(cookieName + '=')[1].split(';')[0];
@@ -64,78 +69,79 @@ function getCookie(cookieStr, cookieName) {
     }
 }
 
+//Saves image data as a file in /images
 function saveImage(body, data, response) {
     fs.writeFile('./public/images/' + body.imageName + '.jpg', body.imageData, 'base64', (err) => {
         if (err) {
-            data.body = errorMassage;
+            data.body = errorMessage;
         } else {
-            data.body = successMassage;
+            data.body = successMessage;
         }
         sendResponse(data, response);
     });
 }
 
-//Insert data into the table
+//Inserts given data into the images table
 function insertData(body, data, response) {
     con.query("INSERT into Images values (?,?)", [body.albumName, JSON.stringify(body.imageArray)], (err, result) => {
         if (err) {
-            data.body = errorMassage;
+            data.body = errorMessage;
         } else {
-            data.body = successMassage;
+            data.body = successMessage;
         }
         sendResponse(data, response);
     })
 }
 
-//Update data in the table
+//Updates given data in the images table
 function updateData(body, data, response) {
     con.query("UPDATE Images SET Array = ? where AlbumName = ?", [JSON.stringify(body.imageArray), body.albumName], (err, result) => {
         if (err) {
-            data.body = errorMassage;
+            data.body = errorMessage;
         } else {
-            data.body = successMassage;
+            data.body = successMessage;
         }
         sendResponse(data, response);
     })
 }
 
-//Print data from table
+//Get data from the images table
 function getData(body, data, response) {
     con.query("select Array from Images where AlbumName = ?", [body.albumName], (err, result) => {
-        if (err) {
-            data.body = errorMassage;
-        } else {
+        if (typeof result[0] != "undefined" && typeof result[0].Array != "undefined") {
             data.body = {
                 status: "success",
                 data: result[0].Array
             };
+        } else {
+            data.body = errorMessage;
         }
         sendResponse(data, response);
     })
 }
 
 
-//Til alle de mængder af data hvor id = ?
+//Checks given login data with the database and returns jsonwebtoken if true
 function login(body, data, response) {
     con.query("select Password from Login where Username = ?", [body.username], (err, result) => {
         if (typeof result[0] != "undefined" && typeof result[0].Password != "undefined") {
             bcrypt.compare(body.password, result[0].Password, (err, result) => {
                 if (result) {
-                    data.body = successMassage;
+                    data.body = successMessage;
                     response.setHeader('Set-Cookie', 'token=' + jwt.sign({ username: body.username }, secretKey, { expiresIn: "4h" }, { algorithm: 'RS256' }) + '; HttpOnly');
                 } else {
-                    data.body = errorMassage;
+                    data.body = errorMessage;
                 }
                 sendResponse(data, response);
             })
         } else {
-            data.body = errorMassage;
+            data.body = errorMessage;
             sendResponse(data, response);
         }
     })
 }
 
-
+//Sends a response to the client
 function sendResponse(data, response) {
     response.on('error', (err) => {
         console.error(err);
@@ -143,6 +149,5 @@ function sendResponse(data, response) {
         response.write('File not found!');
         response.end();
     });
-
     response.end(JSON.stringify(data))
 }

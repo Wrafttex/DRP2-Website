@@ -12,7 +12,7 @@
 
 <body id="body">
     <nav>
-        <p>DRP2</p>
+        <p><a href="Index" id="logo">DRP2</a></p>
         <ul id="navElements">
             <li><a href="Index">Home</a></li>
             <li><a href="#">Albums</a>
@@ -27,11 +27,13 @@
 
     <div id="albumImages"></div>
 
-    <!-- PopUp for images (Modal) -->
-    <div id="myModal" class="modal">
-        <span onclick="closePopup()" class="close">&times;</span>
-        <img class="modal-content" id="img01">
-        <div id="caption"></div>
+    <div id="flexPopup" class="modalFlex" style="display: none">
+        <span class="closeModalX" onclick="closeModal()">&times;</span>
+        <div id="popUpcontent" class="flexPopup-content">
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
     </div>
 
     <!-- Loading the js scripts -->
@@ -39,6 +41,7 @@
     <script src="/javascripts/pathfile.js "></script>
     <script src="/javascripts/NavbarUpdate.js"></script>
     <script src="/javascripts/Imageupload64.js"></script>
+    <script src="/javascripts/piexif.js"></script>
 
     <!-- Album SetUp -->
     <script type="text/javascript" id="DropdownSetUp">

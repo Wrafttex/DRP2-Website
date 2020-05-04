@@ -169,7 +169,6 @@ function savePlacement() {
         loopamount = amountOfImages;
     }
 
-
     for (let index = 0; index < loopamount; index++) {
         grabID = "imageDiv" + "albumImages" + index;
         imageGrab = document.getElementById(grabID).firstElementChild;

@@ -1,6 +1,5 @@
 # Web Album
-
-One Paragraph of project description goes here
+Our Web Album is made to simplify the process of uploading and organizing pictures, in a online Web Album. It is made so that only one person can be the administrator, where you will have the options to reorganize or upload new images. The end result is an organized album that can be shared and exhibited to an audiance, where all the images isn't exposed to any 3. parties. 
 
 ## Getting Started
 
@@ -44,18 +43,19 @@ To upload images or cahnge the structure of the  album, go to the album in quest
 ## Authors
 
 * **Casper Gislum**
-* **Nikolai Eriksen Kure**
 * **Jacob Norlyk Kjergaard**
 * **Kevin Risgaard Sinding**
 * **Magni Jógvansson Hansen**
 * **Mathias Vestergaard Jensen**
+* **Nikolai Eriksen Kure**
 
 ## License
 
-This project is licensed under the MIT License.
+MAGNI!!!! Har du noget fra metadata?
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 * Thanks to [Traversy Media](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA) for the help with the landingpage.
-* And of course thanks to [Stackoverflow](https://www.Stackoverflow.com), [w3schools](https://www.w3schools.com/) and [nodejs knowledge](https://nodejs.org/en/knowledge/).
-* Thanks to [hMatoba](https://github.com/hMatoba) for the code used to acces the metadata.
+* MAGNI! metadata mby?
+* And ofcause thanks to [Stackoverflow](https://www.Stackoverflow.com), [w3schools](https://www.w3schools.com/) and [nodejs knowledge](https://nodejs.org/en/knowledge/).
 

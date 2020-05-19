@@ -44,11 +44,11 @@ To upload images or cahnge the structure of the  album, go to the album in quest
 ## Authors
 
 * **Casper Gislum**
+* **Nikolai Eriksen Kure**
 * **Jacob Norlyk Kjergaard**
 * **Kevin Risgaard Sinding**
 * **Magni Jógvansson Hansen**
 * **Mathias Vestergaard Jensen**
-* **Nikolai Eriksen Kure**
 
 ## License
 
@@ -56,7 +56,6 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 * Thanks to [Traversy Media](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA) for the help with the landingpage.
-* MAGNI! metadata mby?
-* And ofcause thanks to [Stackoverflow](https://www.Stackoverflow.com), [w3schools](https://www.w3schools.com/) and [nodejs knowledge](https://nodejs.org/en/knowledge/).
-* Thanks to hMatoba for the code used to acces the metadata.
+* And of course thanks to [Stackoverflow](https://www.Stackoverflow.com), [w3schools](https://www.w3schools.com/) and [nodejs knowledge](https://nodejs.org/en/knowledge/).
+* Thanks to [hMatoba](https://github.com/hMatoba) for the code used to acces the metadata.
 

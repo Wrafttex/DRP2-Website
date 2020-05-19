@@ -52,11 +52,11 @@ To upload images or cahnge the structure of the  album, go to the album in quest
 
 ## License
 
-MAGNI!!!! Har du noget fra metadata?
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License.
 
 ## Acknowledgments
 * Thanks to [Traversy Media](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA) for the help with the landingpage.
 * MAGNI! metadata mby?
 * And ofcause thanks to [Stackoverflow](https://www.Stackoverflow.com), [w3schools](https://www.w3schools.com/) and [nodejs knowledge](https://nodejs.org/en/knowledge/).
+* Thanks to hMatoba for the code used to acces the metadata.
 

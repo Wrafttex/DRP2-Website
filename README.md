@@ -1,5 +1,5 @@
 # Web Album
-Our Web Album is made to simplify the process of uploading and organizing pictures, in a online Web Album. It is made so that only one person can be the administrator, where you will have the options to reorganize or upload new images. The end result is an organized album that can be shared and exhibited to an audiance, where all the images isn't exposed to any 3. parties. 
+Our web album is made to simplify the process of uploading and organizing pictures, in an online web album. It is made so that only one person can be the administrator, where you will have the options to reorganize and upload new images. The end result is an organized album that can be shared and exhibited to an audiance, where all the images isn't exposed to any 3. parties. 
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ These programs have to be installed before use.
 
 ### Installing
 
-Insert your MySQL information in to the file called MuSQLLogin.js 
+Insert your MySQL information in to the file called MySQLLogin.js 
 
 If you don't already have a database, use database.js to create one. 
 ```
@@ -26,11 +26,11 @@ You need to create MySQL tabels before using the program.
 node input.js create
 ```
 
-To start the program/webserver, if you want to run it on anohter port cahnge that in the file.
+To start the program/webserver, if you want to run it on another port change that in the file.
 ```
 node server.js
 ```
-Now you should be able to acces the webserver [http://localhost:3000/](http://localhost:3000/).
+Now you should be able to access the webserver [http://localhost:3000/](http://localhost:3000/).
 
 If you want to upload images to the albums, you need to login first.
 ```
@@ -38,7 +38,7 @@ Username: Admin
 Password: Admin
 ```
 
-To upload images or cahnge the structure of the  album, go to the album in question and hit edit. When you are happy with the images/structure hit the stitch button.
+To upload images or change the structure of the  album, go to the album in question and hit edit. When you are happy with the images/structure hit the stitch button.
 
 ## Authors
 

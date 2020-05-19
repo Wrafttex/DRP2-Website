@@ -10,8 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 These programs have to be installed before use.
 
-[Node.js](https://nodejs.org/en/download/)
-[MySQL (server) or [XAMPP](ttps://www.apachefriends.org/index.html) 
+* [Node.js](https://nodejs.org/en/download/)
+* [MySQL (server) or [XAMPP](ttps://www.apachefriends.org/index.html) 
 
 ### Installing
 

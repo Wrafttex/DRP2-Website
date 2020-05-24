@@ -16,17 +16,17 @@
 
 <body id="body">
     <nav>
-        <p><a href="Index" id="logo">DRP2</a></p>
+        <p><a href="Index" id="logo">B2-25</a></p>
         <ul id="navElements">
             <li><a href="Index">Home</a></li>
             <li><a href="#">Albums</a>
                 <ul id="dropdown"></ul>
             </li>
             <li>
-                <a href="#" onclick="savePlacement()"> Stitch</a>
+                <a href="#" onclick="stitching()"> Stitch</a>
             </li>
             <li>
-                <label class="fileContainer"> Click here to upload file(s)
+                <label class="fileContainer"> Upload
                     <input type="file" id="inputFileToLoad" name="files" accept=".jpg" multiple="Multiple Select Files" onchange="uploadedImagesToArray();" />
                 </label>
             </li>
@@ -45,10 +45,11 @@
 
     <!-- Loading the js scripts -->
     <script src="/javascripts/ImageLoad.js "></script>
-    <script src="/javascripts/pathfile.js "></script>
     <script src="/javascripts/NavbarUpdate.js"></script>
     <script src="/javascripts/dragAndDrop.js"></script>
     <script src="/javascripts/Imageupload64.js"></script>
+    <script src="/javascripts/piexif.js"></script>
+    <script src="/javascripts/pathfile.js"></script>
 
 
 
@@ -62,7 +63,7 @@
     <!-- Create and add images to albums -->
     <script type="text/javascript" id="AlbumName">
         setUpAlbum(albums[0]);
-        getApiTable("testAlbum");
+        getApiTable("testAlbum", "edit");
     </script>
 
     <script type="text/javascript" id="createImage" class="dragme">

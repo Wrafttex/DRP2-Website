@@ -13,7 +13,7 @@
 
 <body>
     <nav>
-        <p><a href="Index" id="logo">DRP2</a></p>
+        <p><a href="Index" id="logo">B2-25</a></p>
         <ul id="navElements">
             <li><a href="/">Home</a></li>
             <li><a href="#">Albums</a>
@@ -36,19 +36,19 @@
     <!-- HTML form for the login function -->
     <button class="open-button" onclick="openForm()">CLICK TO LOGIN</button>
     <div class="Login_popup" id="LoginForm">
-        <form action="/action_page.php" class="form-container">
+        <div class="form-container">
             <h1 id="login">Login</h1>
             <h2 id="login">This login page is intended for the admin of the site</h2>
 
-            <label id="login" for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <label id="login" for="username"><b>Username</b></label>
+            <input type="text" id="usernameVar" placeholder="Enter Username" name="username" value="" required>
 
-            <label id="login" for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <label id="login" for="password"><b>Password</b></label>
+            <input type="password" id="passwordVar" placeholder="Enter Password" name="password" value="" required>
 
-            <button type="submit" class="btn">Submit</button>
+            <button type="button" class="btn" onclick="login(), closeForm()">Submit</button>
             <button type="button" class="btn cancel" onclick="closeForm()">Return </button>
-        </form>
+        </div>
     </div>
 
 
@@ -58,6 +58,7 @@
     <script src="/javascripts/NavbarUpdate.js"></script>
     <script src="/javascripts/Imageupload64.js"></script>
     <script src="/javascripts/requestApi.js"></script>
+    <script src="/javascripts/pathfile.js"></script>
 
 
     <div id="imgTest"></div>

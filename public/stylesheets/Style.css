@@ -304,10 +304,12 @@ nav ul li ul a:hover {
 /* Example stylistic flourishes */
 
 .fileContainer {
-    background: red;
-    border-radius: .5em;
-    float: left;
-    padding: .5em;
+    display: block;
+    font-family: 'Quicksand', sans-serif;
+    color: whitesmoke;
+    font-size: 1rem;
+    padding: 15px 15px;
+    text-decoration: none;
 }
 
 .fileContainer [type=file] {

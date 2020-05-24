@@ -1,7 +1,6 @@
 // Event is executed on the drag target, getting the information from the selected picture 
 document.ondragstart = function(event) {
     event.dataTransfer.setData("Text", event.target.id);
-    console.log(event.target.id);
 };
 
 // When dragging around with the picture, prevent default from happening.

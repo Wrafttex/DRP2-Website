@@ -12,7 +12,7 @@
 
 <body id="body">
     <nav>
-        <p><a href="Index" id="logo">DRP2</a></p>
+        <p><a href="Index" id="logo">B2-25</a></p>
         <ul id="navElements">
             <li><a href="Index">Home</a></li>
             <li><a href="#">Albums</a>
@@ -31,20 +31,21 @@
         <span class="closeModalX" onclick="closeModal()">&times;</span>
         <div id="popUpcontent" class="flexPopup-content">
         </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <a class="prev" onclick="nextSlides(-1)">&#10094;</a>
+        <a class="next" onclick="nextSlides(1)">&#10095;</a>
 
     </div>
 
     <!-- Loading the js scripts -->
     <script src="/javascripts/ImageLoad.js "></script>
-    <script src="/javascripts/pathfile.js "></script>
     <script src="/javascripts/NavbarUpdate.js"></script>
     <script src="/javascripts/Imageupload64.js"></script>
     <script src="/javascripts/piexif.js"></script>
+    <script src="/javascripts/pathfile.js"></script>
 
     <!-- Album SetUp -->
     <script type="text/javascript" id="DropdownSetUp">
+        let albums = ["testAlbum"];
         updateDropdown(albums);
         addAnchor(albums);
     </script>
@@ -54,7 +55,7 @@
     <script type="text/javascript" id="AlbumName">
         // This variable needs to change based on album
         setUpAlbum(albums[0]);
-        getApiTable("testAlbum");
+        getApiTable("testAlbum", "album");
     </script>
 
 </body>

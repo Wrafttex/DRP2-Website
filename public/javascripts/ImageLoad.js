@@ -12,14 +12,25 @@ async function apiCall(data) {
 
 let returnValue;
 
-async function getApiTable(tableAlbumName) {
+async function getApiTable(tableAlbumName, calledFrom) {
     let result;
     result = await apiCall({
         job: "getData",
         albumName: tableAlbumName
     });
-    returnValue = JSON.parse(result.data);
-    console.log(returnValue);
+    console.log(result.status);
+    if (result.status === "success") {
+        returnValue = JSON.parse(result.data);
+    } else if (result.status === "error" && calledFrom === "edit") {
+        console.log("No table found, creating a new one with the name: " + tableAlbumName);
+        resultNewtable = await apiCall({
+            job: "insertData",
+            albumName: tableAlbumName,
+            imageArray: []
+        });
+        getApiTable(tableAlbumName, "edit");
+        console.log(resultNewtable.status);
+    }
 
 
     createDiv(returnValue, "albumImages");
@@ -136,17 +147,21 @@ function setUpAlbum(albumName) {
     document.body.style.display = "block";
     document.title = albumName;
     document.getElementById("welcome").innerHTML = albumName;
+    localStorage.setItem("imageID", 0);
+    localStorage.setItem("modalImageID", 0);
     //console.log("Album setup")
 }
 
 let amountOfImages = 0;
+let albumArray = [];
 
-
-function savePlacement() {
+async function stitching() {
     let grabID;
     let imageGrab;
-    let updatedAlbum = [];
     let loopamount;
+    albumArray = [];
+    let updateSuccess;
+    let stitchSucess = 0;
     if (typeof amountOfUplaoedImages !== "undefined") {
         loopamount = amountOfImages + amountOfUplaoedImages;
     } else {
@@ -157,22 +172,42 @@ function savePlacement() {
     for (let index = 0; index < loopamount; index++) {
         grabID = "imageDiv" + "albumImages" + index;
         imageGrab = document.getElementById(grabID).firstElementChild;
-        sendToServer(imageGrab.name, imageGrab.src);
-        updatedAlbum[index] = imageGrab.name;
+        updateSuccess = await sendToServer(imageGrab.name, imageGrab.src);
+        albumArray[index] = imageGrab.name;
+        console.log("Status: " + updateSuccess);
+
+        if (returnValue.includes(imageGrab.name)) {
+            albumArray[index] = imageGrab.name;
+            stitchSucess++;
+            console.log("Updated album: " + albumArray);
+        } else if (!returnValue.includes(imageGrab.name) && updateSuccess === "success") {
+            albumArray[index] = imageGrab.name;
+            stitchSucess++;
+            console.log("Updated album: " + albumArray);
+        }
     }
 
-    sendUpdatedAlbum(updatedAlbum);
+    if (stitchSucess === loopamount) {
+        document.getElementById("albumText").innerHTML =
+            "Album updated and is ready to share";
+        document.getElementById("uploadText").style.display = "none";
+        document.getElementById("uploadedImages").innerHTML = "";
+    }
+
+    sendUpdatedAlbum(albumArray);
 }
 
-function sendToServer(name, base64) {
+
+async function sendToServer(name, base64) {
     if (!returnValue.includes(name)) {
-        console.log("Sending images to server");
-        apiCall({
-                job: "imageUploade",
-                imageName: name.split('.')[0],
-                imageData: base64.substring(23)
-            })
-            .then(result => { console.log(result); });
+        let result = await apiCall({
+            job: "imageUpload",
+            imageName: name.split('.')[0],
+            imageData: base64.substring(23)
+        });
+        return result.status;
+    } else {
+        return "success";
     }
 }
 
@@ -202,8 +237,15 @@ function newImageDivs() {
 }
 
 function createNewImageDivs(extraSpcareArray) {
-    let amount = rowToGrabID.replace(/^\D+/g, '').split('a')[0];
+    let amount = 0;
     let idIndex = amountOfImages;
+
+    if (typeof rowToGrabID !== "undefined") {
+        amount = rowToGrabID.replace(/^\D+/g, '').split('a')[0];
+    } else {
+        amount = 0;
+    }
+
     let rowID = "row" + amount;
 
     for (let index = whereToPlaceNewDivs; index < extraSpcareArray.length + whereToPlaceNewDivs; index++) {
@@ -230,7 +272,7 @@ function createNewImageDivs(extraSpcareArray) {
 // Creating div for modal/pop up
 function createModalDiv(arrayname, destination) {
     let imageModalID = 0
-
+    console.log(arrayname)
     if (localStorage.getItem('modalImageID') != undefined) {
         imageModalID = localStorage.getItem('modalImageID');
     }
@@ -242,13 +284,13 @@ function createModalDiv(arrayname, destination) {
         modalImageDiv.style.display = "none";
         appendModalDiv(modalImageDiv, destination);
         imageModalID++;
-
     }
 }
 
-
+// delete a string from image.src as we don't need that
 function createModalImage(arrayName) {
     let modalImageID = 0;
+    console.log(arrayName)
 
     if (localStorage.getItem('modalImageID') != undefined) {
         modalImageID = localStorage.getItem('modalImageID');
@@ -262,19 +304,16 @@ function createModalImage(arrayName) {
             image.name = fileNames[index];
             console.log(image.name);
         }
-        //image.alt = "Failed to load " + arrayName[index];
         image.style.width = "auto";
-        //console.log("Image created");
-        //console.log("Sending image");
         appendModalImage(image, modalImageID, "modalImage");
         modalCaption(image, modalImageID)
-
         modalImageID++;
 
     }
     localStorage.setItem('modalImageID', modalImageID);
 }
 
+// broke this function up to two as that was the best way to get the dataurl to work
 function modalCaption(image, modalImageID) {
     let divwrapper = document.createElement("div")
     let buttonedit = document.createElement("button")
@@ -287,9 +326,9 @@ function modalCaption(image, modalImageID) {
     buttonedit.className = "editcaption"
     buttonedit.addEventListener("click", function() {
         editableElement(divwrapper.id)
-
     });
-    buttonSave.textContent = "Save Button"
+
+    buttonSave.textContent = "Save metadata"
     buttonSave.className = "editcaption"
     buttonSave.addEventListener("click", function() {
         saveMetadata(divwrapper.id, modalImageID)
@@ -297,24 +336,47 @@ function modalCaption(image, modalImageID) {
 
     appendModalImage(buttonedit, modalImageID, "divModalWrapper")
     appendModalImage(buttonSave, modalImageID, "divModalWrapper")
-
-    let exifdata
     if (image.src.match('data:image/jpeg*')) {
-        exifdata = piexif.load(image.src);
-        // console.log(exifdata);
+        modalCaptionShow(image.src, modalImageID, image.name)
+    } else {
+        toDataURL(image.src, function(Base64string) {
+            modalCaptionShow(Base64string, modalImageID, image.name)
+        })
     }
+}
 
+function clickedOnEnter(e) {
+    if (e.type === 'keypress') {
+        if (e.which == 13 || e.keyCode == 13) {
+            this.blur();
+            return false
+        }
+    }
+}
 
+// new function to be able to convert pathfile to base64
+function toDataURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+
+// second part of modalcaption which needs the info from todataurl
+function modalCaptionShow(imagesrc, modalImageID, imagename) {
     let metadataIntake = [269, 270, 315, 37510]
     let metaplace = ["0th", "0th", "0th", "Exif"]
     var ifds = ["0th", "Exif", "GPS", "Interop", "1st"];
 
-    if (image.src.match('data:image/jpeg*')) {
-        // console.log(exifdata["0th"][269])
-        // console.log(exifdata["0th"][270])
-        // console.log(exifdata["0th"][315])
-        // console.log(exifdata["Exif"][37510])
-
+    if (imagesrc.match('data:image/jpg*')) {
+        exifdata = piexif.load(imagesrc);
         for (index = 0; index < metadataIntake.length; index++) {
             let divmetadata = document.createElement("div")
             let headmetadata = document.createElement("h3")
@@ -322,7 +384,7 @@ function modalCaption(image, modalImageID) {
             pmetadata.textContent = " "
             divmetadata.class = "metadata";
             divmetadata.id = piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] + modalImageID
-                // console.log(piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"])
+
             appendModalImage(divmetadata, modalImageID, "divModalWrapper");
 
             headmetadata.textContent = piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"]
@@ -331,17 +393,16 @@ function modalCaption(image, modalImageID) {
 
             pmetadata.className = "pmetadata"
             pmetadata.contentEditable = false
+            pmetadata.addEventListener("keypress", clickedOnEnter);
+            pmetadata.addEventListener('blur', clickedOnEnter);
             if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "DocumentName" && exifdata[metaplace[index]][metadataIntake[index]] === undefined) {
-                pmetadata.textContent = image.name.substr(0, image.name.lastIndexOf('.'));
+                pmetadata.textContent = imagename.substr(0, imagename.lastIndexOf('.'));
             } else {
                 pmetadata.textContent = exifdata[metaplace[index]][metadataIntake[index]];
             }
             appendModalImage(pmetadata, modalImageID, piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"])
-
         }
-
     }
-
 }
 
 function editableElement(divID) {
@@ -350,37 +411,20 @@ function editableElement(divID) {
     console.log(captionedit)
     console.log(captionedit[0])
     for (let index = 0; index < captionedit.length; index++) {
-
         captionedit[index].contentEditable = (captionedit[index].contentEditable === "false") ? true : false;
-        // if((captionedit[index].contentEditable) === "true"){
-        //     captionedit[index].contentEditable = false
-        //     console.log("test")
-        // }
-        // else {
-        //     captionedit[index].contentEditable = true
-        // }
-
     }
-
-    //document.getElementById("caption").contentEditable = true;
-
 }
 
-function saveMetadata(divID, numberID) {
-
-
-
-
-    let captionhead = document.getElementById(divID).getElementsByClassName("headmetadata") //meh
+// added function sendtoserver, think i did it correctly 
+function saveMetadata(divID, imageID, Base64string) {
     let captionedit = document.getElementById(divID).getElementsByClassName("pmetadata")
-    let imageModal = document.getElementById("modal" + numberID)
-    let imageNormal = document.getElementById(numberID)
-
-
+    let imageModal = document.getElementById("modal" + imageID)
+    let imageNormal = document.getElementById(imageID)
     let metadataIntake = [269, 270, 315, 37510]
     let metaplace = ["0th", "0th", "0th", "Exif"]
     let zerothIfd = {};
     let exifIfd = {};
+
     for (let index = 0; index < captionedit.length; index++) {
         if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "DocumentName") {
             zerothIfd[piexif.ImageIFD.DocumentName] = captionedit[index].textContent
@@ -394,16 +438,33 @@ function saveMetadata(divID, numberID) {
     }
     let exifArray = { "0th": zerothIfd, "Exif": exifIfd };
     let exifBinary = piexif.dump(exifArray)
-    let newBase64JPG = piexif.insert(exifBinary, imageModal.src)
-    imageModal.src = newBase64JPG
-    imageNormal.src = newBase64JPG
-
-
-
-
-
+    if (imageNormal.src.match('data:image/jpg*')) {
+        let newBase64JPG = piexif.insert(exifBinary, imageNormal.src)
+        imageModal.src = newBase64JPG
+        imageNormal.src = newBase64JPG
+        sendToServer(imageNormal.name, newBase64JPG)
+    } else {
+        toDataURL(imageNormal.src, function(Base64string) {
+            let newBase64JPG = piexif.insert(exifBinary, Base64string)
+            imageModal.src = newBase64JPG
+            imageNormal.src = newBase64JPG
+            sendMetaDataToServer(imageNormal.name, newBase64JPG)
+        })
+    }
 }
 
+async function sendMetaDataToServer(name, base64) {
+    //console.log(name)
+    //console.log(base64)
+    console.log(returnValue)
+    let result = await apiCall({
+        job: "imageUpload",
+        imageName: name.split('.')[0],
+        imageData: base64.substring(23)
+    });
+    console.log(result.status);
+    return result.status;
+}
 
 function appendModalDiv(div, ID) {
     let destinationDiv = document.getElementById(ID);
@@ -411,8 +472,8 @@ function appendModalDiv(div, ID) {
 }
 
 
-function appendModalImage(image, index, divplace) {
-    let destinationImg = document.getElementById(divplace + index);
+function appendModalImage(image, imageID, divplace) {
+    let destinationImg = document.getElementById(divplace + imageID);
     destinationImg.appendChild(image);
     //  console.log("Image appened");
 
@@ -427,44 +488,33 @@ function closeModal() {
     document.getElementById("flexPopup").style.display = "none";
 }
 
-function currentSlides(ID) {
-    showSlides(slideIndex = ID);
+function currentSlides(ImageID) {
+    showSlides(slideIndex = ImageID);
 
 }
 
 
-function plusSlides(n) {
-    showSlides(slideIndex += n);
+function nextSlides(imageID) {
+    showSlides(slideIndex += imageID);
 }
 
 // remember that slide lenght is one number higher than our index, as index starts at zero and lenght starts at one
-function showSlides(n) {
+function showSlides(imageID) {
     let i;
     let slides = document.getElementsByClassName("modalSlide");
-    // console.log(n);
-    // console.log(slides.length);
 
-
-
-    if (n > slides.length - 1) {
+    if (imageID > slides.length - 1) {
         slideIndex = 0
     }
 
-    if (n < 0) {
+    if (imageID < 0) {
         slideIndex = slides.length - 1
     }
-    // console.log(slideIndex);
-
-    ;
-    // console.log(document.getElementById(slideIndex).name);
-    let captionText = document.getElementById("caption");
 
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
 
     }
     slides[slideIndex].style.display = "block";
-
-
 
 }

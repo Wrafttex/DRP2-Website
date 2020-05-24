@@ -5,9 +5,9 @@ const bcrypt = require('bcrypt');
 
 //Defining the mysql connection settings
 const con = mysql.createPool({
-    user: "webalbum",
-    password: "password",
-    database: "webAlbum",
+    user: "root",
+    password: "",
+    database: "webalbum",
     connectionLimit: 10
 });
 
@@ -17,7 +17,7 @@ const secretKey = "aHR0cHM6Ly95b3V0dS5iZS9kUXc0dzlXZ1hjUQ==";
 
 //Extracts the headers, method, url and body from the request
 module.exports = {
-    handleApiRequest: function (request, response) {
+    handleApiRequest: function(request, response) {
         const { headers, method, url } = request;
         let body = [];
         request.on('error', (err) => {

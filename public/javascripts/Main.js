@@ -64,6 +64,20 @@ function setName(e) {
     }
 }
 
+function login() {
+    let username = document.getElementById("usernameVar").value;
+    let password = document.getElementById("passwordVar").value;
+
+    apiCall({
+        job: "login",
+        username: username,
+        password: password
+    }).then(result => {
+        alert(result.status);
+        console.log(result);
+    });
+}
+
 name.addEventListener('keypress', setName);
 name.addEventListener('blur', setName);
 

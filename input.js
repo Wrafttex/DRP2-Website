@@ -1,10 +1,12 @@
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const databaseSettings = require('./database_settings');
 
+//Defining the mysql connection settings
 const con = mysql.createPool({
-    user: "root",
-    password: "",
-    database: "webAlbum",
+    user: databaseSettings.username,
+    password: databaseSettings.password,
+    database: databaseSettings.databaseName,
     connectionLimit: 10
 });
 

@@ -2,12 +2,13 @@ const fs = require('fs');
 const mysql = require('mysql');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const databaseSettings = require('../database_settings');
 
 //Defining the mysql connection settings
 const con = mysql.createPool({
-    user: "root",
-    password: "",
-    database: "webalbum",
+    user: databaseSettings.username,
+    password: databaseSettings.password,
+    database: databaseSettings.databaseName,
     connectionLimit: 10
 });
 

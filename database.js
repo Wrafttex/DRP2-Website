@@ -1,8 +1,10 @@
 const mysql = require('mysql');
+const databaseSettings = require('./database_settings');
 
+//Defining the mysql connection settings
 const con = mysql.createPool({
-    user: "root",
-    password: "",
+    user: databaseSettings.username,
+    password: databaseSettings.password,
     connectionLimit: 10
 });
 

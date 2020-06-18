@@ -422,29 +422,40 @@ function saveMetadata(divID, imageID, Base64string) {
     let imageNormal = document.getElementById(imageID)
     let metadataIntake = [269, 270, 315, 37510]
     let metaplace = ["0th", "0th", "0th", "Exif"]
-    let zerothIfd = {};
-    let exifIfd = {};
-
-    for (let index = 0; index < captionedit.length; index++) {
-        if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "DocumentName") {
-            zerothIfd[piexif.ImageIFD.DocumentName] = captionedit[index].textContent
-        } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "ImageDescription") {
-            zerothIfd[piexif.ImageIFD.ImageDescription] = captionedit[index].textContent
-        } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "Artist") {
-            zerothIfd[piexif.ImageIFD.Artist] = captionedit[index].textContent
-        } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "UserComment") {
-            exifIfd[piexif.ExifIFD.UserComment] = captionedit[index].textContent
-        }
-    }
-    let exifArray = { "0th": zerothIfd, "Exif": exifIfd };
-    let exifBinary = piexif.dump(exifArray)
+    
     if (imageNormal.src.match('data:image/jpg*')) {
+        let oldexif =  piexif.load(imageNormal.src)
+        for (let index = 0; index < captionedit.length; index++) {
+            if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "DocumentName") {
+                oldexif[metaplace[index]][metadataIntake[index]] =  captionedit[index].textContent
+            } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "ImageDescription") {
+                oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent
+            } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "Artist") {
+                oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent  
+            } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "UserComment") {
+                oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent  
+            }
+        }
+        let exifBinary = piexif.dump(oldexif)
         let newBase64JPG = piexif.insert(exifBinary, imageNormal.src)
         imageModal.src = newBase64JPG
         imageNormal.src = newBase64JPG
         sendToServer(imageNormal.name, newBase64JPG)
     } else {
         toDataURL(imageNormal.src, function(Base64string) {
+          let oldexif =  piexif.load(Base64string)
+            for (let index = 0; index < captionedit.length; index++) {
+                if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "DocumentName") {
+                    oldexif[metaplace[index]][metadataIntake[index]] =  captionedit[index].textContent
+                } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "ImageDescription") {
+                    oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent
+                } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "Artist") {
+                    oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent  
+                } else if (piexif.TAGS[metaplace[index]][metadataIntake[index]]["name"] == "UserComment") {
+                    oldexif[metaplace[index]][metadataIntake[index]] = captionedit[index].textContent  
+                }
+            }
+            let exifBinary = piexif.dump(oldexif)
             let newBase64JPG = piexif.insert(exifBinary, Base64string)
             imageModal.src = newBase64JPG
             imageNormal.src = newBase64JPG

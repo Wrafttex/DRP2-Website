@@ -14,7 +14,7 @@ These programs have to be installed before use.
 
 ### Installing
 
-Insert your MySQL information in to the file called MySQLLogin.js 
+Insert your MySQL information in to the file called database_settings.js 
 
 If you don't already have a database, use database.js to create one. 
 ```
